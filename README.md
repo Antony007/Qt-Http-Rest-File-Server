@@ -13,6 +13,19 @@ This project tries to follow the MVC (Model-View-Controller) pattern used by man
 
 This project was built and tested with Qt v5.5 and Ubuntu. This project requires c++14
 
+### Features
+- Built-in Authentication.*(Incase you want to restrict your rest api to users approved by you only.)*
+- Session Management. *(Set and use session variable like PHP)*
+- MVC Approach *(Create a controller class and add methods for actions)*
+- Support for large file uploads. *(Support uploading files >500MB to **remaining space in your harddisk** :wink:)*
+- Support for download of large files
+- Crash info using [DeathHandler](https://github.com/vmarkovtsev/DeathHandler)
+- Built on top of [QHttp](https://github.com/azadkuh/qhttp). *(A well tested and live project)*
+
+### Coming up
+- A TaskManager for managing time consuming tasks which other wise leads to time-out on client side. *(Can be used to show progress bar on the client end i.e. Browsers,..etc)*
+- A Helper class for server-side processing of [JQuery Datatables](https://datatables.net/).
+
 ### How to
 Lets suppose you want to handle a request: `GET localhost:1992/demo/Hello`
 - Link to the ADNServer Library.
