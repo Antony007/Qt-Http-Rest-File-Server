@@ -15,7 +15,7 @@ This project was built and tested with Qt v5.5 and Ubuntu. This project requires
 
 ### Features
 - Built-in Authentication.  *(Incase you want to restrict your rest api to users approved by you only.)*
-- Session Management. *(Set and use session variable like PHP)*
+- Session Management. *(Set and use session variables like PHP)*
 - MVC Approach *(Create a controller class and add methods for actions)*
 - Support for large file uploads. *(Support uploading files >500MB to **remaining space in your harddisk** :wink:)*
 - Support for download of large files
