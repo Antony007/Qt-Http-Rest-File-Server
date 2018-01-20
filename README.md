@@ -80,7 +80,7 @@ QJsonValue demoController::getHello(QStringList params, QByteArray data)
     return QJsonValue(retObj);
 }
 ```
-- Add the demoController class to `ACTIVATE_CONTROLLER` in the main().
+- Add the demoController class to `ACTIVATE_CONTROLLERS` in the main().
 ```C++
 ACTIVATE_CONTROLLERS(authController,demoController);
 ```
