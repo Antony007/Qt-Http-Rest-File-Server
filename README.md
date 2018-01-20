@@ -4,8 +4,8 @@ A Http, REST and File server written using Qt C++.
 
 This project also uses the library/code from the below projects.
 
-- [QHttp] (https://github.com/azadkuh/qhttp)
-- [DeathHandler] (https://github.com/vmarkovtsev/DeathHandler)
+- [QHttp](https://github.com/azadkuh/qhttp)
+- [DeathHandler](https://github.com/vmarkovtsev/DeathHandler)
 
 
 
