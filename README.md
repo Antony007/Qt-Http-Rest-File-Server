@@ -26,6 +26,12 @@ This project was built and tested with Qt v5.5 and Ubuntu. This project requires
 - A TaskManager for managing time consuming tasks which other wise leads to time-out on client side. *(Can be used to show progress bar on the client end i.e. Browsers,..etc)*
 - A Helper class for server-side processing of [JQuery Datatables](https://datatables.net/).
 
+### Docs
+- [How to Implement Authentication](docs/authentication.md)
+- How to implement sessions *(TODO)*
+- File management *(TODO)*
+- Complex Examples using databases *(TODO)*
+
 ### How to
 Lets suppose you want to handle a request: `GET localhost:1992/demo/Hello`
 - Link to the ADNServer Library.
