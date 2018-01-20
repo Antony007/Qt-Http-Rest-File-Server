@@ -104,6 +104,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 ```
-- Open your browser and go to localhost:1992/demo/Hello
+- Open your browser and go to `localhost:1992/demo/Hello`
 ### Copyleft
 ###### Distributed under the GPLv3 license. Copyright (c) 2018, Antony Nadar.
