@@ -26,7 +26,7 @@ class demoController : public ADNController
 
 REGISTER_CONTROLLER(demoController)
 ```
-- Add a get Method for Hello
+- Add a GET Method for Hello
 ```C++
 #include "adncontroller.h"
 
@@ -61,7 +61,7 @@ QJsonValue demoController::getHello(QStringList params, QByteArray data)
     return QJsonValue(retObj);
 }
 ```
-- Add the demoController class to `ACTIVATE_CONTROLLER` in Sthe main().
+- Add the demoController class to `ACTIVATE_CONTROLLER` in the main().
 ```C++
 ACTIVATE_CONTROLLERS(authController,demoController);
 ```
