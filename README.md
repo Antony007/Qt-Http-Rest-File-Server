@@ -33,7 +33,7 @@ This project was built and tested with Qt v5.5 and Ubuntu. This project requires
 - Complex Examples using databases *(TODO)*
 
 ### Quick Guide
-Lets suppose you want to handle a request: `GET localhost:1992/demo/Hello`
+Lets suppose you want to handle a request: `GET /demo/Hello`
 - Link to the ADNServer Library.
 - Create a class named demoController derived from ADNController as shown below.
 ```C++
