@@ -101,7 +101,11 @@ int main(int argc, char *argv[])
     ADNHttpServer::ADNServer httpserver;
     httpserver.start(1992);
 
-    return a.exec();
+    int ret = a.exec();
+
+    DestroyAuthorizer();
+
+    return ret;
 }
 ```
 - Open your browser and go to `localhost:1992/demo/Hello`
