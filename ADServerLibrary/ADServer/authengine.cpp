@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QVariant>
 #include <QDebug>
-#include "adnhttpserver.h"
+#include "adserver.h"
 #include "session.h"
 
 AuthEngine::AuthEngine()

@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include "adnhttpserver.h"
+#include "adserver.h"
 #include "democontroller.h"
 #include "authcontroller.h"
 #include "filecontroller.h"

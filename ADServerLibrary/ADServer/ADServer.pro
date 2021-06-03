@@ -9,46 +9,51 @@ QT      += core network sql
 
 CONFIG += c++14
 
-TARGET = ADNHttpServer
+TARGET = ADServer
 TEMPLATE = lib
 
 DEFINES += AUTH
 
-DEFINES += ADNHTTPSERVER_LIBRARY
+DEFINES += ADSERVER_LIBRARY
 
-SOURCES += adnhttpserver.cpp \
+SOURCES += \
     session.cpp \
     registers.cpp \
     filecontroller.cpp \
-    deathhandler.cpp \
     authengine.cpp \
     authcontroller.cpp \
     adnconnection.cpp \
     defs.cpp \
-    adntaskmanager.cpp
+    adntaskmanager.cpp \
+    adserver_p.cpp \
+    adserver.cpp
 
-HEADERS += adnhttpserver.h \
+HEADERS += \
     session.h \
     registers.h \
     filecontroller.h \
-    deathhandler.h \
     authengine.h \
     authcontroller.h \
     adncontroller.h \
     defs.h \
     adntaskmanager.h \
-    export.h
+    export.h \
+    adserver_p.h \
+    adserver.h
 
 unix {
+    HEADERS += deathhandler.h
+    SOURCES += deathhandler.cpp
+
+    LIBS += -ldl
+
     target.path = /usr/lib
     INSTALLS += target
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdParty/QHttp/release/ -lqhttp
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdParty/QHttp/debug/ -lqhttp
-else:unix:!macx: LIBS += -L$$PWD/../3rdParty/QHttp/ -lqhttp
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/release/ -lqhttp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/debug/ -lqhttp
+else:unix: LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/ -lqhttp
 
-INCLUDEPATH += $$PWD/../3rdParty/QHttp
-DEPENDPATH += $$PWD/../3rdParty/QHttp
-
-LIBS += -ldl
+INCLUDEPATH += $$PWD/../3rdParty/qhttp/src
+DEPENDPATH += $$PWD/../3rdParty/qhttp/src

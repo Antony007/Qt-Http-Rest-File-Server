@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QObject>
-#include "adnhttpserver.h"
+#include "adserver.h"
 #include "session.h"
 #include "defs.h"
 

@@ -4,21 +4,35 @@
 #include "export.h"
 
 #include "defs.h"
-#include "qhttpfwd.hpp"
 
 namespace ADNHttpServer {
 using namespace qhttp::server;
-///////////////////////////////////////////////////////////////////////////////
-/// \brief The ADNServer struct
 
-class ADNHTTPSERVERSHARED_EXPORT ADNResponse
+class ADSERVERSHARED_EXPORT ADNResponse
 {
 public:
     bool valid;
     QString comment;
 };
 
-struct ADNHTTPSERVERSHARED_EXPORT ADNServer : public QHttpServer
+class ADServerPrivate;
+class ADSERVERSHARED_EXPORT ADServer
+{
+public:
+    int start(quint16 port);
+    void process(QHttpRequest* req, QHttpResponse* res);
+    void error(QHttpResponse* res);
+    void methoderror(QHttpResponse* res); //For CORS
+    void success(QHttpResponse *res);
+    void reply(QHttpResponse *res, QJsonValue json,ADNResponse response);
+
+private:
+    Q_DECLARE_PRIVATE(ADServer)
+    Q_DISABLE_COPY(ADServer)
+    QScopedPointer<ADServerPrivate>  d_ptr;
+};
+
+struct ADSERVERSHARED_EXPORT ADNServer : public QHttpServer
 {
     using QHttpServer::QHttpServer;
 
@@ -38,7 +52,7 @@ protected:
     virtual void incomingConnection(qintptr handle);
 }; // struct server
 ///////////////////////////////////////////////////////////////////////////////
-struct ADNHTTPSERVERSHARED_EXPORT ADNConnection : public QHttpConnection
+struct ADSERVERSHARED_EXPORT ADNConnection : public QHttpConnection
 {
     using QHttpConnection::QHttpConnection;
 

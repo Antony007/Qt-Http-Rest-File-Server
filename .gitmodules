@@ -1,0 +1,3 @@
+[submodule "ADNHttpServerLibrary/3rdParty/qhttp"]
+	path = ADNHttpServerLibrary/3rdParty/qhttp
+	url = https://github.com/azadkuh/qhttp.git
