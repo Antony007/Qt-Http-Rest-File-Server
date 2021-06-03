@@ -7,11 +7,11 @@
 #include <QMap>
 #include <QPair>
 
-namespace ADN {
+namespace AD {
 
-class ADNTaskManager;
+class ADTaskManager;
 
-class  ADNHTTPSERVERSHARED_EXPORT Task : public QThread
+class  ADSERVERSHARED_EXPORT Task : public QThread
 {
     Q_OBJECT
 
@@ -32,15 +32,15 @@ private:
 private:
     int m_id;
 
-    friend class ADNTaskManager;
+    friend class ADTaskManager;
 };
 
-class ADNHTTPSERVERSHARED_EXPORT ADNTaskManager : public QObject
+class ADSERVERSHARED_EXPORT ADTaskManager : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ADNTaskManager(QObject * parent = 0);
+    explicit ADTaskManager(QObject * parent = 0);
 
 public:
     int AddTask(Task* task);

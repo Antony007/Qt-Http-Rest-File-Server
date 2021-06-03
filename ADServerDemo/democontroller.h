@@ -1,9 +1,9 @@
 #ifndef DEMOCONTROLLER_H
 #define DEMOCONTROLLER_H
 
-#include "adncontroller.h"
+#include "adcontroller.h"
 
-class demoController : public ADNController
+class demoController : public ADController
 {
     Q_OBJECT
 public:

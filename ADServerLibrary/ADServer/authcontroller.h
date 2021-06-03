@@ -1,9 +1,9 @@
 #ifndef AUTHCONTROLLER_H
 #define AUTHCONTROLLER_H
 
-#include "adncontroller.h"
+#include "adcontroller.h"
 
-class ADNHTTPSERVERSHARED_EXPORT authController : public ADNController
+class ADSERVERSHARED_EXPORT authController : public ADController
 {
     Q_OBJECT
 public:

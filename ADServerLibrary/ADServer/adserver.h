@@ -1,38 +1,21 @@
 #ifndef KDMSERVER_H
 #define KDMSERVER_H
 
-#include "export.h"
-
 #include "defs.h"
+#include "qhttpserver.hpp"
+#include "qhttpserverconnection.hpp"
 
-namespace ADNHttpServer {
+namespace ADHttpServer {
 using namespace qhttp::server;
 
-class ADSERVERSHARED_EXPORT ADNResponse
+class ADSERVERSHARED_EXPORT ADResponse
 {
 public:
     bool valid;
     QString comment;
 };
 
-class ADServerPrivate;
-class ADSERVERSHARED_EXPORT ADServer
-{
-public:
-    int start(quint16 port);
-    void process(QHttpRequest* req, QHttpResponse* res);
-    void error(QHttpResponse* res);
-    void methoderror(QHttpResponse* res); //For CORS
-    void success(QHttpResponse *res);
-    void reply(QHttpResponse *res, QJsonValue json,ADNResponse response);
-
-private:
-    Q_DECLARE_PRIVATE(ADServer)
-    Q_DISABLE_COPY(ADServer)
-    QScopedPointer<ADServerPrivate>  d_ptr;
-};
-
-struct ADSERVERSHARED_EXPORT ADNServer : public QHttpServer
+struct ADSERVERSHARED_EXPORT ADServer : public QHttpServer
 {
     using QHttpServer::QHttpServer;
 
@@ -41,7 +24,7 @@ struct ADSERVERSHARED_EXPORT ADNServer : public QHttpServer
     void error(QHttpResponse* res);
     void methoderror(QHttpResponse* res); //For CORS
     void success(QHttpResponse *res);
-    void reply(QHttpResponse *res, QJsonValue json,ADNResponse response);
+    void reply(QHttpResponse *res, QJsonValue json,ADResponse response);
 
 private slots:
     void onNewConnection(QHttpConnection*);
@@ -52,15 +35,15 @@ protected:
     virtual void incomingConnection(qintptr handle);
 }; // struct server
 ///////////////////////////////////////////////////////////////////////////////
-struct ADSERVERSHARED_EXPORT ADNConnection : public QHttpConnection
+struct ADSERVERSHARED_EXPORT ADConnection : public QHttpConnection
 {
     using QHttpConnection::QHttpConnection;
 
 public:
-    ADNConnection(QObject *parent = 0);
+    ADConnection(QObject *parent = nullptr);
 
 protected:
-    friend class ADNServer;
+    friend struct ADServer;
 };
 } // namespace server
 #endif // KDMSERVER_H

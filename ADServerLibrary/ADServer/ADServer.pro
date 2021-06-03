@@ -17,33 +17,31 @@ DEFINES += AUTH
 DEFINES += ADSERVER_LIBRARY
 
 SOURCES += \
+    adconnection.cpp \
+    adtaskmanager.cpp \
     session.cpp \
     registers.cpp \
     filecontroller.cpp \
     authengine.cpp \
     authcontroller.cpp \
-    adnconnection.cpp \
     defs.cpp \
-    adntaskmanager.cpp \
-    adserver_p.cpp \
     adserver.cpp
 
 HEADERS += \
+    adcontroller.h \
+    adtaskmanager.h \
     session.h \
     registers.h \
     filecontroller.h \
     authengine.h \
     authcontroller.h \
-    adncontroller.h \
     defs.h \
-    adntaskmanager.h \
     export.h \
-    adserver_p.h \
     adserver.h
 
 unix {
-    HEADERS += deathhandler.h
-    SOURCES += deathhandler.cpp
+    HEADERS += $$PWD/../3rdParty/dh/deathhandler.h
+    SOURCES += $$PWD/../3rdParty/dh/deathhandler.cc
 
     LIBS += -ldl
 
@@ -51,9 +49,11 @@ unix {
     INSTALLS += target
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/release/ -lqhttp
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/debug/ -lqhttp
-else:unix: LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/ -lqhttp
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/xbin/ -lqhttp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../3rdParty/qhttp/xbin/ -lqhttp
+else:unix:!macx: LIBS += -L$$OUT_PWD/../3rdParty/qhttp/src/ -lqhttp
 
 INCLUDEPATH += $$PWD/../3rdParty/qhttp/src
 DEPENDPATH += $$PWD/../3rdParty/qhttp/src

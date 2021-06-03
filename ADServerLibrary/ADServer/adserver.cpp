@@ -1,21 +1,23 @@
 #include "adserver.h"
-#include "adncontroller.h"
+#include "adcontroller.h"
 #include <QMetaType>
 #include <QTcpSocket>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QThread>
 #include "filecontroller.h"
+#include "qhttpserverrequest.hpp"
+#include "qhttpserverresponse.hpp"
 
-using namespace ADNHttpServer;
+using namespace ADHttpServer;
 
 const QString VALID_KEY = "valid";
 const QString VALID_COMMENT = "comment";
 const QString SESSION_ID = "session";
 
-int ADNServer::start(quint16 port) {
-    connect(this, &QHttpServer::newConnection,this,&ADNServer::onNewConnection);
-    connect(this, &QHttpServer::newRequest,this,&ADNServer::onNewRequest);
+int ADServer::start(quint16 port) {
+    connect(this, &QHttpServer::newConnection,this,&ADServer::onNewConnection);
+    connect(this, &QHttpServer::newRequest,this,&ADServer::onNewRequest);
 
     bool isListening = listen(QString::number(port));
 
@@ -31,10 +33,10 @@ int ADNServer::start(quint16 port) {
     return 0;
 }
 
-void ADNServer::process(QHttpRequest* req, QHttpResponse* res)
+void ADServer::process(QHttpRequest* req, QHttpResponse* res)
 {
     QString urlString = req->url().toDisplayString();
-    ADNConnection* connection = dynamic_cast<ADNConnection*>(req->connection());
+    ADConnection* connection = dynamic_cast<ADConnection*>(req->connection());
     Q_UNUSED(connection)
 
     QStringList params = urlString.split('/',QString::SkipEmptyParts);
@@ -59,7 +61,7 @@ void ADNServer::process(QHttpRequest* req, QHttpResponse* res)
         int id = QMetaType::type(className.toStdString().c_str());
         if (id != QMetaType::UnknownType)
         {
-            ADNController *controllerPtr = static_cast<ADNController*>(QMetaType::create(id));
+            ADController *controllerPtr = static_cast<ADController*>(QMetaType::create(id));
 
             if(controllerPtr)
             {
@@ -72,7 +74,7 @@ void ADNServer::process(QHttpRequest* req, QHttpResponse* res)
                     methoderror(res);
 
                 QMetaType::destroy(id, controllerPtr);
-                controllerPtr = 0;
+                controllerPtr = nullptr;
             }
             else
             {
@@ -86,13 +88,13 @@ void ADNServer::process(QHttpRequest* req, QHttpResponse* res)
     }
 }
 
-void ADNServer::error(QHttpResponse* res)
+void ADServer::error(QHttpResponse* res)
 {
     QJsonObject ErrorObject;
     QJsonValue ErrorValue(false);
     ErrorObject.insert(VALID_KEY,ErrorValue);
     ErrorObject.insert(VALID_COMMENT,"Not Found");
-    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADNConnection*>(res->connection())->SessionID()));
+    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADConnection*>(res->connection())->SessionID()));
 
     QJsonDocument ErrorDocument(ErrorObject);
     QByteArray ErrorJson = ErrorDocument.toJson();
@@ -101,19 +103,19 @@ void ADNServer::error(QHttpResponse* res)
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", ErrorJson.size());
     res->setStatusCode(qhttp::ESTATUS_NOT_FOUND);
     res->end(ErrorJson);
 }
 
-void ADNServer::methoderror(QHttpResponse *res)
+void ADServer::methoderror(QHttpResponse *res)
 {
     QJsonObject ErrorObject;
     QJsonValue ErrorValue(false);
     ErrorObject.insert(VALID_KEY,ErrorValue);
     ErrorObject.insert(VALID_COMMENT,"Not Found");
-    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADNConnection*>(res->connection())->SessionID()));
+    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADConnection*>(res->connection())->SessionID()));
 
     QJsonDocument ErrorDocument(ErrorObject);
     QByteArray ErrorJson = ErrorDocument.toJson();
@@ -122,13 +124,13 @@ void ADNServer::methoderror(QHttpResponse *res)
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", ErrorJson.size());
     res->setStatusCode(qhttp::ESTATUS_OK);
     res->end(ErrorJson);
 }
 
-void ADNServer::success(QHttpResponse *res)
+void ADServer::success(QHttpResponse *res)
 {
     QJsonObject SuccessObject;
 
@@ -144,13 +146,13 @@ void ADNServer::success(QHttpResponse *res)
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", SuccessJson.size());
     res->setStatusCode(qhttp::ESTATUS_OK);
     res->end(SuccessJson);
 }
 
-void ADNServer::reply(QHttpResponse *res, QJsonValue json, ADNResponse response)
+void ADServer::reply(QHttpResponse *res, QJsonValue json, ADResponse response)
 {
     QJsonObject ResponseObject;
     if(!json.isNull())
@@ -158,7 +160,7 @@ void ADNServer::reply(QHttpResponse *res, QJsonValue json, ADNResponse response)
 
     ResponseObject.insert(VALID_KEY,response.valid);
     ResponseObject.insert(VALID_COMMENT,response.comment);
-    //    ResponseObject.insert(SESSION_ID,(dynamic_cast<ADNConnection*>(res->connection())->SessionID()));
+    //    ResponseObject.insert(SESSION_ID,(dynamic_cast<ADConnection*>(res->connection())->SessionID()));
 
     QJsonDocument ResponseDocument(ResponseObject);
     QByteArray reply = ResponseDocument.toJson();
@@ -166,21 +168,21 @@ void ADNServer::reply(QHttpResponse *res, QJsonValue json, ADNResponse response)
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", reply.size());
     res->setStatusCode(qhttp::ESTATUS_OK);
     res->end(reply);
 }
 
-void ADNServer::onNewConnection(QHttpConnection *)
+void ADServer::onNewConnection(QHttpConnection *)
 {
     qDebug() << "A new connection has been come!";
 }
 
-void ADNServer::onNewRequest(QHttpRequest *req, QHttpResponse *res)
+void ADServer::onNewRequest(QHttpRequest *req, QHttpResponse *res)
 {
     QString urlString = req->url().toDisplayString();
-    ADNConnection* connection = dynamic_cast<ADNConnection*>(req->connection());
+    ADConnection* connection = dynamic_cast<ADConnection*>(req->connection());
     Q_UNUSED(connection)
 
     QStringList params = urlString.split('/',QString::SkipEmptyParts);
@@ -207,9 +209,9 @@ void ADNServer::onNewRequest(QHttpRequest *req, QHttpResponse *res)
     }
 }
 
-void ADNHttpServer::ADNServer::incomingConnection(qintptr handle)
+void ADHttpServer::ADServer::incomingConnection(qintptr handle)
 {
-    ADNConnection* conn = new ADNConnection(this);
+    ADConnection* conn = new ADConnection(this);
     conn->setSocketDescriptor(handle, backendType());
     conn->tcpSocket()->setSocketOption(QAbstractSocket::KeepAliveOption,1);
     conn->setTimeOut(/*QHttpServer::timeOut()*/0);

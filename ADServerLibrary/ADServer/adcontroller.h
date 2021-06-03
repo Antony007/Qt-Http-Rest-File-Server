@@ -10,17 +10,18 @@
 #include "adserver.h"
 #include "session.h"
 #include "defs.h"
+#include "qhttpserverrequest.hpp"
 
-using namespace ADNHttpServer;
+using namespace ADHttpServer;
 
-class ADNHTTPSERVERSHARED_EXPORT ADNController : public QObject
+class ADSERVERSHARED_EXPORT ADController : public QObject
 {
     Q_OBJECT
 
 public:
-    ADNController(){m_response.valid = true; m_response.comment = ""; m_session = NULL;}
-    ADNController(const ADNController& obj): QObject(0){m_response = obj.m_response;}
-    ~ADNController(){}
+    ADController(){m_response.valid = true; m_response.comment = ""; m_session = nullptr;}
+    ADController(const ADController& obj): QObject(nullptr){m_response = obj.m_response;}
+    ~ADController(){}
 
 public:
     bool process(QHttpRequest* req, QStringList params, QByteArray data,QJsonValue& ret)
@@ -70,16 +71,16 @@ public:
         return success;
     }
 
-    ADNResponse response(){return m_response;}
+    ADResponse response(){return m_response;}
     QHttpRequest* request(){return req;}
-    ADNConnection* connection(){return dynamic_cast<ADNConnection*>(req->connection());}
+    ADConnection* connection(){return dynamic_cast<ADConnection*>(req->connection());}
     Session* session(){ return m_session; }
 
 protected:
     void setResponse(bool valid,QString comment){m_response.valid = valid; m_response.comment = comment;}
 
 private:
-    ADNResponse m_response;
+    ADResponse m_response;
     QHttpRequest* req;
     Session* m_session;
 };

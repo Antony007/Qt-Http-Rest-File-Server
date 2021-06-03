@@ -1,7 +1,7 @@
 #include "defs.h"
 
 static AuthEngine*  auth = NULL;
-static ADN::ADNTaskManager* taskManager = NULL;
+static AD::ADTaskManager* taskManager = NULL;
 
 
 QString method(QString methodString)
@@ -44,11 +44,11 @@ void DestroyAuthorizer()
     FREE_MEMORY(auth);
 }
 
-ADN::ADNTaskManager *TaskManager()
+AD::ADTaskManager *TaskManager()
 {
     if(taskManager == NULL)
     {
-        taskManager = new ADN::ADNTaskManager;
+        taskManager = new AD::ADTaskManager;
     }
 
     return taskManager;

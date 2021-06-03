@@ -8,9 +8,12 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    ACTIVATE_CONTROLLERS(authController,demoController);
+//    ACTIVATE_CONTROLLERS(authController,demoController);
 
-    ADNHttpServer::ADNServer httpserver;
+    qRegisterMetaType<authController>("authController");
+    qRegisterMetaType<demoController>("demoController");
+
+    ADHttpServer::ADServer httpserver;
     httpserver.start(1992);
 
     return a.exec();

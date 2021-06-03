@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "adserver.h"
 #include "session.h"
+#include "qhttpserverrequest.hpp"
 
 AuthEngine::AuthEngine()
 {
@@ -194,8 +195,8 @@ QString AuthEngine::GetAuthID(qhttp::server::QHttpRequest *req)
     QString authid;
     authid.clear();
 
-    if(req->headers().has("x-adn-authid"))
-        authid = req->headers().value("x-adn-authid");
+    if(req->headers().has("x-ad-authid"))
+        authid = req->headers().value("x-ad-authid");
 
     return authid;
 }
@@ -205,8 +206,8 @@ QString AuthEngine::GetSessionID(qhttp::server::QHttpRequest *req)
     QString sessionid;
     sessionid.clear();
 
-    if(req->headers().has("x-adn-sessionid"))
-        sessionid = req->headers().value("x-adn-sessionid");
+    if(req->headers().has("x-ad-sessionid"))
+        sessionid = req->headers().value("x-ad-sessionid");
 
     return sessionid;
 }

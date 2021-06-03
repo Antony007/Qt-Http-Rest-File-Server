@@ -1,7 +1,8 @@
 #include "session.h"
 #include <QUuid>
+#include <QVariant>
 
-Session::Session(QString authID) : QObject(0)
+Session::Session(QString authID) : QObject(nullptr)
 {
     m_sessionTimer = new QTimer();
     m_sessionTimer->setInterval(60000);

@@ -1,19 +1,19 @@
-#include "adntaskmanager.h"
+#include "adtaskmanager.h"
 
-using namespace ADN;
+using namespace AD;
 
 void Task::SetID(int id)
 {
     m_id = id;
 }
 
-ADNTaskManager::ADNTaskManager(QObject *parent) : QObject(parent)
+ADTaskManager::ADTaskManager(QObject *parent) : QObject(parent)
 {
     m_tasks.clear();
     m_index = 0;
 }
 
-int ADNTaskManager::AddTask(Task *task)
+int ADTaskManager::AddTask(Task *task)
 {
     int index =m_index;
     m_index++;
@@ -25,7 +25,7 @@ int ADNTaskManager::AddTask(Task *task)
         return 1;
 }
 
-bool ADNTaskManager::RemoveTask(int id)
+bool ADTaskManager::RemoveTask(int id)
 {
     if (m_tasks.contains(id))
     {
@@ -45,7 +45,7 @@ bool ADNTaskManager::RemoveTask(int id)
     }
 }
 
-QList<Task *> ADNTaskManager::GetAllTasks()
+QList<Task *> ADTaskManager::GetAllTasks()
 {
     QList<Task*> taskLists;
     taskLists.clear();
@@ -59,7 +59,7 @@ QList<Task *> ADNTaskManager::GetAllTasks()
     return taskLists;
 }
 
-Task *ADNTaskManager::GetTask(int id)
+Task *ADTaskManager::GetTask(int id)
 {
     if (m_tasks.contains(id))
     {
@@ -71,7 +71,7 @@ Task *ADNTaskManager::GetTask(int id)
     }
 }
 
-bool ADNTaskManager::StartTask(int id)
+bool ADTaskManager::StartTask(int id)
 {
     if (m_tasks.contains(id))
     {

@@ -3,9 +3,9 @@
 
 #include "adserver.h"
 
-using namespace ADNHttpServer;
+using namespace ADHttpServer;
 
-class ADNHTTPSERVERSHARED_EXPORT fileController: public QObject
+class ADSERVERSHARED_EXPORT fileController: public QObject
 {
     Q_OBJECT
 
@@ -23,7 +23,7 @@ protected:
     void setResponse(bool valid,QString comment){m_response.valid = valid; m_response.comment = comment;}
 
 private:
-    ADNResponse m_response;
+    ADResponse m_response;
     Session* m_session;
     QString destPath;
     int splitIndex;

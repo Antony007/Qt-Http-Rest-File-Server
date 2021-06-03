@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++14
 
-TARGET = ADNServerDemo
+TARGET = ADServerDemo
 CONFIG += console
 CONFIG -= app_bundle
 

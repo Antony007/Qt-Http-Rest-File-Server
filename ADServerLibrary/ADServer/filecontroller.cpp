@@ -3,6 +3,8 @@
 #include <QMimeType>
 #include <QFile>
 #include <QTcpSocket>
+#include "qhttpserverrequest.hpp"
+#include "qhttpserverresponse.hpp"
 
 const QString VALID_KEY = "valid";
 const QString VALID_COMMENT = "comment";
@@ -31,7 +33,7 @@ void fileController::error(QHttpResponse* res, QString comment )
     QJsonValue ErrorValue(false);
     ErrorObject.insert(VALID_KEY,ErrorValue);
     ErrorObject.insert(VALID_COMMENT,comment);
-    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADNConnection*>(res->connection())->SessionID()));
+    //    ErrorObject.insert(SESSION_ID,(dynamic_cast<ADConnection*>(res->connection())->SessionID()));
 
     QJsonDocument ErrorDocument(ErrorObject);
     QByteArray ErrorJson = ErrorDocument.toJson();
@@ -40,7 +42,7 @@ void fileController::error(QHttpResponse* res, QString comment )
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", ErrorJson.size());
     res->setStatusCode(qhttp::ESTATUS_NOT_FOUND);
     res->end(ErrorJson);
@@ -61,7 +63,7 @@ void fileController::success(QHttpResponse *res)
     res->addHeader("Content-Type", "application/json");
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", SuccessJson.size());
     res->setStatusCode(qhttp::ESTATUS_OK);
     res->end(SuccessJson);
@@ -101,7 +103,7 @@ void fileController::download(QHttpResponse *res, QStringList params)
     res->addHeader("Content-Type", type.name().toUtf8());
     res->addHeader("Access-Control-Allow-Credentials", "true");
     res->addHeader("Access-Control-Allow-Origin","*");
-    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-ADN-SessionID, X-ADN-AuthID");
+    res->addHeader("Access-Control-Allow-Headers:","Content-Type, Authorization, X-AD-SessionID, X-AD-AuthID");
     res->addHeaderValue("content-length", QString::number(file.size()));
     res->setStatusCode(qhttp::ESTATUS_OK);
 
@@ -127,7 +129,7 @@ void fileController::upload(QHttpRequest *req,  QHttpResponse* res, QStringList 
     {
         m_session = Authorizer()->RequestSession(req);
 
-        if(m_session == NULL)
+        if(m_session == nullptr)
             m_session = Authorizer()->CreateSession(Authorizer()->GetAuthID(req));
     }
 #ifdef AUTH
