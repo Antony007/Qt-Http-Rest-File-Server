@@ -1,9 +1,6 @@
-[submodule "ADNHttpServerLibrary/3rdParty/qhttp"]
-	path = ADNHttpServerLibrary/3rdParty/qhttp
-	url = https://github.com/azadkuh/qhttp.git
-[submodule "ADServerLibrary\\3rdParty\\qhttp"]
-	path = ADServerLibrary\\3rdParty\\qhttp
+[submodule "ADServerLibrary/3rdParty/qhttp"]
+	path = ADServerLibrary/3rdParty/qhttp
 	url = https://github.com/Antony007/qhttp.git
-[submodule "ADServerLibrary\\3rdParty\\dh"]
-	path = ADServerLibrary\\3rdParty\\dh
+[submodule "ADServerLibrary/3rdParty/dh"]
+	path = ADServerLibrary/3rdParty/dh
 	url = https://github.com/Antony007/DeathHandler.git
