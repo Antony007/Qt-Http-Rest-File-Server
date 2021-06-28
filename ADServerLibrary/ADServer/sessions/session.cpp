@@ -2,6 +2,8 @@
 #include <QUuid>
 #include <QVariant>
 
+#ifdef DISABLE
+
 Session::Session(QString authID) : QObject(nullptr)
 {
     m_sessionTimer = new QTimer();
@@ -82,3 +84,5 @@ void Session::SetValid(bool valid)
 {
     m_valid = valid;
 }
+
+#endif

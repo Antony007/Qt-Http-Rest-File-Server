@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include  "qhttpfwd.hpp"
 
+#ifdef DISABLE
+
 class Session;
 
 static QHash<QString,Session*> sessions;
@@ -42,5 +44,7 @@ private:
     QString m_identifier;
     QString m_Error;
 };
+
+#endif
 
 #endif // AUTHENGINE_H

@@ -3,9 +3,14 @@
 #include <QFile>
 #include <QVariant>
 #include <QDebug>
+
+#ifdef DISABLE
+
 #include "adserver.h"
 #include "session.h"
 #include "qhttpserverrequest.hpp"
+
+
 
 AuthEngine::AuthEngine()
 {
@@ -307,3 +312,5 @@ bool AuthEngine::Init()
 
     return true;
 }
+
+#endif

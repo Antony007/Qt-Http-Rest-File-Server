@@ -1,16 +1,15 @@
 #ifndef DEMOCONTROLLER_H
 #define DEMOCONTROLLER_H
 
-#include "adcontroller.h"
+#include "controllers/basecontroller.h"
 
-class demoController : public ADController
+using namespace ADServer;
+
+class demoController : public BaseController
 {
     Q_OBJECT
 public:
-    REGISTER_ACTION QJsonValue getHello(QStringList params,QByteArray data);
-    REGISTER_ACTION QJsonValue getError(QStringList params,QByteArray data);
+    API void get();
 };
-
-REGISTER_CONTROLLER(demoController)
 
 #endif // DEMOCONTROLLER_H

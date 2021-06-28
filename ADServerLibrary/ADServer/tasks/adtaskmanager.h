@@ -1,5 +1,5 @@
-#ifndef KDMTASKMANAGER_H
-#define KDMTASKMANAGER_H
+#ifndef ADTASKMANAGER_H
+#define ADTASKMANAGER_H
 
 #include "export.h"
 
@@ -16,7 +16,7 @@ class  ADSERVERSHARED_EXPORT Task : public QThread
     Q_OBJECT
 
 public:
-    explicit Task(QObject* parent = 0): QThread(parent){}
+    explicit Task(QObject* parent = nullptr): QThread(parent){}
 
 public:
     virtual int percent() = 0;
@@ -40,7 +40,7 @@ class ADSERVERSHARED_EXPORT ADTaskManager : public QObject
     Q_OBJECT
 
 public:
-    explicit ADTaskManager(QObject * parent = 0);
+    explicit ADTaskManager(QObject * parent = nullptr);
 
 public:
     int AddTask(Task* task);
@@ -58,4 +58,4 @@ private:
 
 }
 
-#endif // KDMTASKMANAGER_H
+#endif // ADTASKMANAGER_H

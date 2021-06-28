@@ -1,20 +1,18 @@
 #include <QCoreApplication>
-#include "adserver.h"
+#include "core/app.h"
+#include "controllers/webcontroller.h"
 #include "democontroller.h"
-#include "authcontroller.h"
-#include "filecontroller.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    ADServer::App app(argc, argv);
 
-//    ACTIVATE_CONTROLLERS(authController,demoController);
+    webController::setWebRoot(Common::applicationPath() + QDir::separator() + "www");
 
-    qRegisterMetaType<authController>("authController");
-    qRegisterMetaType<demoController>("demoController");
+    app.addRoute<webController>("/");
+    app.addRoute<demoController>("/demo");
 
-    ADHttpServer::ADServer httpserver;
-    httpserver.start(1992);
+    int ret = app.start(1992);
 
-    return a.exec();
+    return ret;
 }

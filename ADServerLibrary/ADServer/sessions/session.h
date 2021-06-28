@@ -1,6 +1,8 @@
 #ifndef SESSION_H
 #define SESSION_H
 
+#ifdef DISABLE
+
 #include "defs.h"
 #include "qhttpfwd.hpp"
 #include <QTimer>
@@ -37,5 +39,7 @@ private:
     QTimer* m_sessionTimer;
     bool m_valid;
 };
+
+#endif
 
 #endif // SESSION_H
