@@ -1,11 +1,12 @@
 #include "webcontroller.h"
 #include "common.h"
 #include <QMimeDatabase>
+#include <QDebug>
 
-using namespace ADServer;
+using namespace D;
 
 bool webController::routeToIndex = false;
-QString webController::webRoot = Common::applicationPath() + QDir::separator() + "www";
+QString webController::webRoot = "www";
 
 void webController::get()
 {
@@ -24,24 +25,14 @@ void webController::get()
     else
         path = defaultPath;
 
+    qDebug() << path;
+
     if(path.endsWith(".html") && routeToIndex)
         path = defaultPath;
 
-    QFile f(path);
-    if(!f.open(QFile::ReadOnly))
-    {
-        setStatus(Response::STATUS_NOT_FOUND);
-        return;
-    }
+    qDebug() << path;
 
-    auto data = f.readAll();
-    f.close();
-
-    QMimeDatabase db;
-    QMimeType type = db.mimeTypeForFile(path);
-
-    setContentType(type.name());
-    sendResponse(data);
+    sendFile(path);
 }
 
 void webController::setWebRoot(QString rootPath)

@@ -1,6 +1,7 @@
 #include "request.h"
+#include "qhttpserverrequest.hpp"
 
-using namespace ADServer;
+using namespace D;
 
 Request::Request(QHttpRequest *req)
     : m_req(req)

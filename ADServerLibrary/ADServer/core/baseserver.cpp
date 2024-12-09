@@ -1,8 +1,10 @@
 #include "baseserver.h"
 #include "baseconnection.h"
+#include "qhttpserverrequest.hpp"
+#include "qhttpserverresponse.hpp"
 #include <QTcpSocket>
 
-using namespace ADServer;
+using namespace D;
 
 void BaseServer::incomingConnection(qintptr handle)
 {

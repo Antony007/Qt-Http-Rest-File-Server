@@ -8,8 +8,11 @@
 #include "request.h"
 #include "response.h"
 #include "controllers/basecontroller.h"
+#include "middlewares/basemiddleware.h"
+#include "baseserver.h"
+#include "qhttpserverrequest.hpp"
 
-using namespace ADServer;
+using namespace D;
 
 App::App(int &argc, char **argv)
     : QCoreApplication(argc, argv)
@@ -34,6 +37,16 @@ int App::start(quint16 port) {
 
 void App::process(std::shared_ptr<Request> req, std::shared_ptr<Response> res)
 {
+    // Pre-middleware
+    {
+        foreach(auto w, m_middlewares)
+        {
+            auto invokable = w();
+            auto middleware = std::dynamic_pointer_cast<BaseMiddleware>(invokable);
+            middleware->preProcess(req,res);
+        }
+    }
+
     QString url = req->url().toDisplayString();
     QStringList path = url.split('/',QString::SkipEmptyParts);
 
@@ -49,6 +62,18 @@ void App::process(std::shared_ptr<Request> req, std::shared_ptr<Response> res)
             controller->process(req, res);
         }
     }
+
+    // Post-middleware
+    {
+        foreach(auto w, m_middlewares)
+        {
+            auto invokable = w();
+            auto middleware = std::dynamic_pointer_cast<BaseMiddleware>(invokable);
+            middleware->postProcess(req,res);
+        }
+    }
+
+    res->finish(QByteArray());
 }
 
 Invokable App::getRoute(const QStringList &path, QString *route)
@@ -113,6 +138,11 @@ bool App::addRouteExInst(QString p, Invokable v)
     return true;
 }
 
+void App::addMiddlewareExInst(Invokable v)
+{
+    m_middlewares.append(v);
+}
+
 void App::onNewRequest(std::shared_ptr<Request> req, std::shared_ptr<Response> res)
 {
     req->collectData();
@@ -122,7 +152,7 @@ void App::onNewRequest(std::shared_ptr<Request> req, std::shared_ptr<Response> r
 }
 
 
-QString ADServer::App::id()
+QString App::id()
 {
     return "App";
 }

@@ -5,7 +5,7 @@
 #include "request.h"
 #include "response.h"
 
-namespace ADServer {
+namespace D {
 using namespace qhttp::server;
 
 class BaseServer : public QHttpServer
@@ -23,6 +23,6 @@ protected:
     void incomingConnection(QHttpConnection *connection) override;
 };
 
-} // namespace ADServer
+} // namespace D
 
 #endif // BASESERVER_H

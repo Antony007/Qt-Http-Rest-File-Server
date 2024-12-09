@@ -5,7 +5,8 @@ SOURCES += \
     $$PWD/baselogger.cpp \
     $$PWD/baseserver.cpp \
     $$PWD/request.cpp \
-    $$PWD/response.cpp
+    $$PWD/response.cpp \
+    $$PWD/router.cpp
 
 HEADERS += \
     $$PWD/app.h \
@@ -14,4 +15,5 @@ HEADERS += \
     $$PWD/baselogger.h \
     $$PWD/baseserver.h \
     $$PWD/request.h \
-    $$PWD/response.h
+    $$PWD/response.h \
+    $$PWD/router.h

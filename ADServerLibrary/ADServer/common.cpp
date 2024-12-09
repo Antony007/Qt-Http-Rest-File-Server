@@ -3,5 +3,5 @@
 
 QString Common::applicationPath()
 {
-    return ADServer::App::applicationDirPath();
+    return D::App::applicationDirPath();
 }

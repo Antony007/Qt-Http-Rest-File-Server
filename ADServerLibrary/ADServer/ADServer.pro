@@ -28,16 +28,8 @@ include(controllers/controllers.pri)
 include(guards/guards.pri)
 include(sessions/sessions.pri)
 include(tasks/tasks.pri)
-
-unix {
-    HEADERS += $$PWD/../3rdParty/dh/deathhandler.h
-    SOURCES += $$PWD/../3rdParty/dh/deathhandler.cc
-
-    LIBS += -ldl
-
-    target.path = /usr/lib
-    INSTALLS += target
-}
+include(middlewares/middlewares.pri)
+include(network/network.pri)
 
 unix:!macx|win32: LIBS += -L$$OUT_PWD/../3rdParty/qhttp/xbin/ -lqhttp
 

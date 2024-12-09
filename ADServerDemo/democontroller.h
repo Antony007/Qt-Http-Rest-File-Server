@@ -3,7 +3,7 @@
 
 #include "controllers/basecontroller.h"
 
-using namespace ADServer;
+using namespace D;
 
 class demoController : public BaseController
 {

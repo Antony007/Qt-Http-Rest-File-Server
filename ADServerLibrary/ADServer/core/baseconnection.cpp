@@ -1,6 +1,6 @@
 #include "baseconnection.h"
 
-using namespace ADServer;
+using namespace D;
 
 BaseConnection::BaseConnection(QObject *parent): QHttpConnection(parent)
 {

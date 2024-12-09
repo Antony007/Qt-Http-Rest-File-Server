@@ -1,9 +1,17 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-#include "qhttpserverrequest.hpp"
+class QUrl;
+class QByteArray;
+class QString;
 
-namespace ADServer {
+namespace qhttp {
+namespace server {
+class QHttpRequest;
+}
+}
+
+namespace D {
 
 using namespace qhttp::server;
 
@@ -23,6 +31,6 @@ private:
     QHttpRequest* m_req;
 };
 
-} // namespace ADServer
+} // namespace D
 
 #endif // REQUEST_H

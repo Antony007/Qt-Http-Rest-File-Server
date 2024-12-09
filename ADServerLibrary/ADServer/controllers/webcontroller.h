@@ -4,7 +4,7 @@
 #include "basecontroller.h"
 #include "export.h"
 
-namespace ADServer {
+namespace D {
 
 class ADSERVERSHARED_EXPORT webController : public BaseController
 {

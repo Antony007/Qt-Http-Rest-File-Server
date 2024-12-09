@@ -1,7 +1,10 @@
 #include "basecontroller.h"
 #include <QUrlQuery>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
-using namespace ADServer;
+using namespace D;
 
 BaseController::BaseController()
     : BaseInvokable ()
@@ -19,7 +22,7 @@ void BaseController::setRoute(QString route)
     m_route = route;
 }
 
-void ADServer::BaseController::process(std::shared_ptr<Request> request, std::shared_ptr<Response> response)
+void BaseController::process(std::shared_ptr<Request> request, std::shared_ptr<Response> response)
 {
     m_request = request;
     m_response = response;
@@ -30,6 +33,7 @@ void ADServer::BaseController::process(std::shared_ptr<Request> request, std::sh
     m_queryParams.clear();
 
     QString url = m_request->url().toDisplayString();
+    url = sanitizeUrl(url);
 
     if(url.startsWith(m_route))
         url = url.remove(0, m_route.count());
@@ -81,21 +85,16 @@ void ADServer::BaseController::process(std::shared_ptr<Request> request, std::sh
 
     bool success =  QMetaObject::invokeMethod(this,methodName.toStdString().c_str(),Qt::DirectConnection);
 
-    if(!success && !param.isEmpty()) // If unable to find function with param, restore param and invoke root method function
-    {
+    if(!success && !param.isEmpty()) // If unable to find function with param, try to restore param and invoke root method function
+    {        
         m_params.insert(0,param);
         success =  QMetaObject::invokeMethod(this,m_request->getMethod().toStdString().c_str(),Qt::DirectConnection);
     }
 
-    if(!success)
+    if(!success && (m_request->getMethod().compare("options") != 0))
         m_response->setStatus(Response::STATUS_NOT_FOUND);
 
-    m_response->finish(m_data);
-}
-
-QVector<QString> BaseController::allowedHeaders()
-{
-    return QVector<QString>();
+    m_response->send(m_data);
 }
 
 void BaseController::setHeader(const QByteArray &header, const QByteArray &value)
@@ -138,9 +137,87 @@ QByteArray &BaseController::getPostData()
     return m_postData;
 }
 
+void BaseController::sendJsonResponse(QJsonObject object)
+{
+    QJsonDocument doc(object);
+    setContentType("application/json");
+    sendResponse(doc.toJson(QJsonDocument::Compact));
+}
 
+void BaseController::sendJsonResponse(QJsonDocument doc)
+{
+    setContentType("application/json");
+    sendResponse(doc.toJson(QJsonDocument::Compact));
+}
 
-QString ADServer::BaseController::id()
+void BaseController::sendJsonResponse(QJsonArray array)
+{
+    QJsonDocument doc(array);
+    setContentType("application/json");
+    sendResponse(doc.toJson(QJsonDocument::Compact));
+}
+
+void BaseController::sendFile(QString path)
+{
+    QFile f(path);
+    if(!f.open(QFile::ReadOnly))
+    {
+        setStatus(Response::STATUS_NOT_FOUND);
+        return;
+    }
+
+    auto data = f.readAll();
+    f.close();
+
+    QMimeType type = db.mimeTypeForFile(path);
+
+    setContentType(type.name());
+    sendResponse(data);
+}
+
+QString BaseController::sanitizeUrl(QString url)
+{
+    QString sanitizedUrl = url;
+
+    // Remove duplicate slash
+    {
+        const bool SANTIZE_ALL = false;
+        bool foundSlash = false;
+        int index = 0;
+
+        // Remove all
+        if(SANTIZE_ALL)
+        {
+            sanitizedUrl = sanitizedUrl.replace("//","/");
+        }
+        else // Only remove from beginning
+        {
+            while (true) {
+                if(sanitizedUrl.at(index) == "/")
+                {
+                    if(!foundSlash)
+                    {
+                        foundSlash = true;
+                        index++;
+                    }
+                    else
+                    {
+                        sanitizedUrl.remove(index,1);
+                    }
+                }
+                else
+                    break;
+
+                if(index >= sanitizedUrl.size())
+                    break;
+            }
+        }
+    }
+
+    return sanitizedUrl;
+}
+
+QString BaseController::id()
 {
     return "Controller";
 }

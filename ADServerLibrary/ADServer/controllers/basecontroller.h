@@ -4,6 +4,7 @@
 #include "export.h"
 #include <QObject>
 #include <QVector>
+#include <QMimeDatabase>
 #include "common.h"
 #include "core/request.h"
 #include "core/response.h"
@@ -12,7 +13,7 @@
 
 #define API Q_INVOKABLE
 
-namespace ADServer {
+namespace D {
 
 using QueryParameters = QHash<QString,QString>;
 using UrlParameters = QVector<QString>;
@@ -30,9 +31,6 @@ public:
     void process(std::shared_ptr<Request> request, std::shared_ptr<Response> response) override; // BaseInvokable interface
 
 protected:
-    virtual QVector<QString> allowedHeaders();
-
-protected:
     void setHeader(const QByteArray& header, const QByteArray& value);
     void setContentType(QString type);
     void setStatus(Response::ResponseStatusCode code);
@@ -42,8 +40,15 @@ protected:
     UrlParameters &getParameters();
     QByteArray &getPostData();
 
+    // Assist functions
+    void sendJsonResponse(QJsonObject object);
+    void sendJsonResponse(QJsonDocument doc);
+    void sendJsonResponse(QJsonArray array);
+    void sendFile(QString path);
+
 private:
     QString simplifiedMethodString();
+    QString sanitizeUrl(QString url);
 
 
 private:
@@ -54,6 +59,7 @@ private:
     std::shared_ptr<Request> m_request;
     std::shared_ptr<Response> m_response;
     QString m_route;
+    QMimeDatabase db;
 
     // BaseLogger interface
 protected:

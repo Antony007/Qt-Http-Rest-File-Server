@@ -2,8 +2,9 @@
 #define BASEINVOKABLE_H
 
 #include <QObject>
+#include <memory>
 
-namespace ADServer {
+namespace D {
 
 class Request;
 class Response;
@@ -24,6 +25,6 @@ public:
                          std::shared_ptr<Response> response) = 0;
 };
 
-} // namespace ADServer
+} // namespace D
 
 #endif // BASEINVOKABLE_H

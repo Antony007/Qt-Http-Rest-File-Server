@@ -1,6 +1,7 @@
 #include "response.h"
+#include "qhttpserverresponse.hpp"
 
-using namespace ADServer;
+using namespace D;
 
 Response::Response(QHttpResponse *res)
     : m_res(res)
@@ -18,7 +19,12 @@ void Response::setStatus(Response::ResponseStatusCode code)
     m_res->setStatusCode(static_cast<qhttp::TStatusCode>(code));
 }
 
-void Response::finish(QByteArray data = QByteArray())
+void Response::finish(QByteArray data)
 {
     m_res->end(data);
+}
+
+void Response::send(QByteArray data)
+{
+    m_res->write(data);
 }

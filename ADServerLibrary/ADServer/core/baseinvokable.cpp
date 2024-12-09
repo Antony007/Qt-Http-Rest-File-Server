@@ -1,6 +1,6 @@
 #include "baseinvokable.h"
 
-namespace ADServer {
+namespace D {
 
 BaseInvokable::BaseInvokable() : QObject(nullptr)
 {
@@ -12,4 +12,4 @@ BaseInvokable::~BaseInvokable()
 
 }
 
-} // namespace ADServer
+} // namespace D

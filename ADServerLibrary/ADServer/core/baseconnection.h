@@ -5,7 +5,7 @@
 #include "export.h"
 #include "qhttpserverconnection.hpp"
 
-namespace ADServer {
+namespace D {
 using namespace qhttp::server;
 
 class ADSERVERSHARED_EXPORT BaseConnection : public QHttpConnection

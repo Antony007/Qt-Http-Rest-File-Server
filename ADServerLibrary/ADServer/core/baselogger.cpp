@@ -1,7 +1,12 @@
 #include "baselogger.h"
 #include <QDebug>
 
-using namespace ADServer;
+using namespace D;
+
+BaseLogger::BaseLogger()
+{
+
+}
 
 BaseLogger::~BaseLogger()
 {

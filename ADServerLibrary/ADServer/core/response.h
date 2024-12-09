@@ -1,9 +1,15 @@
 #ifndef RESPONSE_H
 #define RESPONSE_H
 
-#include "qhttpserverresponse.hpp"
+class QByteArray;
 
-namespace ADServer {
+namespace qhttp {
+namespace server {
+class QHttpResponse;
+}
+}
+
+namespace D {
 
 using namespace qhttp::server;
 
@@ -62,11 +68,12 @@ public:
     void setHeader(const QByteArray &field, const QByteArray &value);
     void setStatus(ResponseStatusCode code);
     void finish(QByteArray data);
+    void send(QByteArray data);
 
 private:
     QHttpResponse* m_res;
 };
 
-} // namespace ADServer
+} // namespace D
 
 #endif // RESPONSE_H
